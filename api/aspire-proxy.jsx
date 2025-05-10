@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     }
     
     try {
-      // Get credentials from query params
+      // Get credential from query params
       const clientId = req.query.clientId;
       const secret = req.query.secret;
       
