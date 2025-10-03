@@ -18,9 +18,10 @@ export default async function handler(req, res) {
     const customFilter = req.query.filter;
     const pageNumber = parseInt(req.query.$pagenumber || req.query.pagenumber || 1);
     const limit = parseInt(req.query.$limit || req.query.limit || 1000);
+    const orderby = req.query.$orderby || req.query.orderby; // Add orderby support
     const endpoint = req.query.endpoint || '/Activities';
     
-    console.log(`Processing endpoint: ${endpoint}, filter: ${customFilter || "default"}, pageNumber=${pageNumber}, limit=${limit}`);
+    console.log(`Processing endpoint: ${endpoint}, filter: ${customFilter || "default"}, pageNumber=${pageNumber}, limit=${limit}, orderby=${orderby || "none"}`);
     
     if (!clientId || !secret) {
       return res.status(400).json({ error: "Missing credentials" });
@@ -62,6 +63,9 @@ export default async function handler(req, res) {
     let url = `https://cloud-api.youraspire.com${endpoint}?$pagenumber=${pageNumber}&$limit=${limit}`;
     if (filter) {
       url += `&$filter=${encodeURIComponent(filter)}`;
+    }
+    if (orderby) {
+      url += `&$orderby=${encodeURIComponent(orderby)}`;
     }
     
     console.log("Calling Aspire API URL:", url);
