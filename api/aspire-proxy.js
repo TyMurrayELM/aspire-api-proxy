@@ -19,6 +19,7 @@ export default async function handler(req, res) {
     const pageNumber = parseInt(req.query.$pagenumber || req.query.pagenumber || 1);
     const limit = parseInt(req.query.$limit || req.query.limit || 1000);
     const orderby = req.query.$orderby || req.query.orderby; // Add orderby support
+    const select = req.query.$select || req.query.select; // Field selection support
     const endpoint = req.query.endpoint || '/Activities';
     
     console.log(`Processing endpoint: ${endpoint}, filter: ${customFilter || "default"}, pageNumber=${pageNumber}, limit=${limit}, orderby=${orderby || "none"}`);
@@ -66,6 +67,9 @@ export default async function handler(req, res) {
     }
     if (orderby) {
       url += `&$orderby=${encodeURIComponent(orderby)}`;
+    }
+    if (select) {
+      url += `&$select=${encodeURIComponent(select)}`;
     }
     
     console.log("Calling Aspire API URL:", url);
